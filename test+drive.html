@@ -1,0 +1,46 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>OneDrive PMTiles Browser Test</title>
+</head>
+<body>
+  <h2>OneDrive PMTiles Browser Test</h2>
+  <pre id="result">Testing OneDrive...</pre>
+
+  <script>
+    const URL =
+      "https://1drv.ms/u/c/2e51ba3f2aa28db3/IQANelDyXZr7Sb8x81wHHdzBAZfKRu2l25XphSz6mIcoU1c?e=ESX6N9";
+
+    async function test() {
+      const output = document.getElementById("result");
+
+      try {
+        const response = await fetch(URL, {
+          headers: {
+            Range: "bytes=0-126"
+          }
+        });
+
+        const data = await response.arrayBuffer();
+
+        output.textContent =
+          "HTTP STATUS: " + response.status +
+          "\nDownloaded bytes: " + data.byteLength +
+          "\nContent-Range visible: " +
+          response.headers.get("Content-Range") +
+          "\nContent-Length visible: " +
+          response.headers.get("Content-Length") +
+          "\n\nBROWSER FETCH SUCCESS";
+
+      } catch (error) {
+        output.textContent =
+          "BROWSER FETCH FAILED\n\n" + error;
+      }
+    }
+
+    test();
+  </script>
+</body>
+</html>
